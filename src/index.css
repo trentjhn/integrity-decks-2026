@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Lenis drives scrolling; keep native smooth off so they don't fight */
+    scroll-behavior: auto;
+  }
+  body {
+    background-color: #F4F1EA;
+    color: #13181D;
+    font-family: 'Hanken Grotesk', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Branded text selection */
+  ::selection {
+    background: #B6864B;
+    color: #13181D;
+  }
+  /* Keyboard focus: visible bronze ring for everyone, no mouse outline */
+  :focus-visible {
+    outline: 2px solid #C9A26A;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+  .font-display {
+    font-family: 'DM Serif Display', serif;
+  }
+  .font-sans {
+    font-family: 'Hanken Grotesk', sans-serif;
+  }
+}
+
+/* Hide scrollbar on horizontal scroll regions */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Masked line-reveal wrapper (GSAP animates the inner element).
+   padding-bottom gives descenders (g, y, p) room so overflow:hidden never clips them. */
+.line-mask { overflow: hidden; display: block; padding-bottom: 0.16em; }
+
+/* Subtle film grain for depth — keeps large flat areas from reading as bland */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Lenis recommended base */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }

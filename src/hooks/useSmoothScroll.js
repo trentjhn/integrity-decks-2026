@@ -1,0 +1,27 @@
+import { useEffect } from "react";
+import Lenis from "lenis";
+import { gsap, ScrollTrigger, prefersReducedMotion } from "../lib/gsap";
+
+// Buttery momentum scrolling (Lenis) wired into GSAP's ScrollTrigger so scroll
+// animations stay in sync with the smoothed scroll position. No-op under reduced motion.
+export function useSmoothScroll() {
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    lenis.on("scroll", ScrollTrigger.update);
+    const tick = (time) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove(tick);
+      lenis.destroy();
+    };
+  }, []);
+}

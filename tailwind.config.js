@@ -9,14 +9,14 @@ export default {
         "bone-dim": "#E7E2D6",
         ink: "#13181D",
         navy: {
-          DEFAULT: "#14242F",
-          deep: "#0D1A23",
-          soft: "#1D3140",
-          line: "#2B4254",
+          DEFAULT: "#102A47", // truer, deeper blue navy (was teal-leaning #14242F)
+          deep: "#091526",
+          soft: "#1B3A5E",
+          line: "#2B4A72",
         },
         bronze: {
-          DEFAULT: "#B6864B", // warm, restrained; used in hairlines/labels/hover, never gaudy
-          soft: "#C9A26A",
+          DEFAULT: "#B26C3A", // copper-leaning warm metal; used in hairlines/labels/hover, never gaudy
+          soft: "#C68A5A",
         },
         steel: "#8C9AA5",
       },

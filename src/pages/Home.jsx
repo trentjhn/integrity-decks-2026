@@ -72,6 +72,15 @@ export default function Home() {
   const stmtSmall = useRef(null);
   const processLine = useRef(null);
 
+  // Hero photo crossfades up from the navy base instead of popping in. Reduced-motion
+  // users start with it already shown (no fade). If the image is cached, onLoad may
+  // fire before React attaches the handler, so we also check .complete on mount.
+  const heroImgRef = useRef(null);
+  const [heroImgLoaded, setHeroImgLoaded] = useState(prefersReducedMotion);
+  useEffect(() => {
+    if (heroImgRef.current?.complete) setHeroImgLoaded(true);
+  }, []);
+
   useGSAP(
     () => {
       if (prefersReducedMotion) return;
@@ -141,7 +150,14 @@ export default function Home() {
       {/* ================= HERO (brand-forward, centered) ================= */}
       <section ref={heroSection} className="relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden grain text-center bg-navy-deep">
         <div ref={heroMedia} className="absolute inset-0 -top-[16%] h-[132%] bg-navy-deep">
-          <img src={heroImg} alt="Covered deck with a fire feature at dusk in the Bay Area" className="w-full h-full object-cover" />
+          <img
+            ref={heroImgRef}
+            src={heroImg}
+            alt="Covered deck with a fire feature at dusk in the Bay Area"
+            fetchpriority="high"
+            onLoad={() => setHeroImgLoaded(true)}
+            className={`w-full h-full object-cover transition-opacity duration-[1100ms] ease-out ${heroImgLoaded ? "opacity-100" : "opacity-0"}`}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy/60 to-navy/45" />
           <div className="absolute inset-0 bg-navy-deep/25" />
         </div>

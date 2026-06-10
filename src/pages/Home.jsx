@@ -139,8 +139,8 @@ export default function Home() {
   return (
     <div ref={root} className="font-sans text-ink">
       {/* ================= HERO (brand-forward, centered) ================= */}
-      <section ref={heroSection} className="relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden grain text-center">
-        <div ref={heroMedia} className="absolute inset-0 -top-[16%] h-[132%]">
+      <section ref={heroSection} className="relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden grain text-center bg-navy-deep">
+        <div ref={heroMedia} className="absolute inset-0 -top-[16%] h-[132%] bg-navy-deep">
           <img src={heroImg} alt="Covered deck with a fire feature at dusk in the Bay Area" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy/60 to-navy/45" />
           <div className="absolute inset-0 bg-navy-deep/25" />

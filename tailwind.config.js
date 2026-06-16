@@ -26,7 +26,8 @@ export default {
         sans: ['"Hanken Grotesk"', "sans-serif"],
       },
       letterSpacing: {
-        tightest: "-0.035em",
+        // Gentle tracking for the Didone display face — it crowds under heavier negative values.
+        tightest: "-0.012em",
       },
       boxShadow: {
         // warm, navy-tinted (not default cool gray) so lift feels native to the bone ground

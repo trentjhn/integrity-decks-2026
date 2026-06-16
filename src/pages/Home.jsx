@@ -201,7 +201,7 @@ export default function Home() {
       <section className="py-28 md:py-40 px-6 md:px-10 max-w-[1320px] mx-auto overflow-hidden">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
           <div className="lg:col-span-6">
-            <h2 className="font-display text-4xl md:text-6xl leading-[1.04] tracking-tightest">
+            <h2 className="font-display text-4xl md:text-6xl leading-[1.12] tracking-tightest">
               <span className="line-mask"><span className="mask-inner block">Built right the first</span></span>
               <span className="line-mask"><span className="mask-inner block">time. Restored to last.</span></span>
             </h2>

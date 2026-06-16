@@ -8,6 +8,60 @@
       name="description"
       content="Family-owned deck restoration and waterproofing serving the San Francisco Bay Area. Rated 4.9 stars. Custom decks, repairs, and high-performance waterproofing."
     />
+    <!-- Canonical: update to the production domain (integritydecksrestoration.com) once DNS is pointed at this site. -->
+    <link rel="canonical" href="https://integrity-decks.vercel.app/" />
+    <meta name="theme-color" content="#102A47" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Integrity Decks & Restoration" />
+    <meta property="og:title" content="Integrity Decks & Restoration | Bay Area Deck Building & Waterproofing" />
+    <meta property="og:description" content="Family-owned deck restoration and waterproofing serving the San Francisco Bay Area. Rated 4.9 stars." />
+    <meta property="og:url" content="https://integrity-decks.vercel.app/" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!--
+      Structured data (schema.org GeneralContractor) — the machine-readable business facts
+      AI engines and search read straight from the raw HTML. Fields left out (telephone, email,
+      hours, CSLB license, sameAs profile links) are pending Dan's confirmation; add them here.
+    -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GeneralContractor",
+      "name": "Integrity Decks & Restoration",
+      "legalName": "Integrity Decks & Restoration General Contracting, Inc.",
+      "url": "https://integrity-decks.vercel.app/",
+      "description": "Family-owned deck building, restoration, and waterproofing serving the San Francisco Bay Area. Rated 4.9 stars on HomeAdvisor.",
+      "knowsLanguage": ["en", "es"],
+      "founder": { "@type": "Person", "name": "Refugio Barba" },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Sausalito",
+        "addressRegion": "CA",
+        "postalCode": "94966",
+        "addressCountry": "US"
+      },
+      "geo": { "@type": "GeoCoordinates", "latitude": 37.8591, "longitude": -122.4853 },
+      "areaServed": { "@type": "GeoCircle", "name": "San Francisco Bay Area" },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "15",
+        "bestRating": "5"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Deck and Balcony Restoration" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Waterproofing and Coatings" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Deck Construction" } }
+        ]
+      }
+    }
+    </script>
   </head>
   <body class="relative w-full bg-[#F4F1EA] text-[#13181D] overflow-x-hidden">
     <div id="root"></div>

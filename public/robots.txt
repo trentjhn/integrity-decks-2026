@@ -1,0 +1,23 @@
+# Integrity Decks & Restoration — robots.txt
+# Allow everything, including AI retrieval crawlers.
+
+User-agent: *
+Allow: /
+
+# AI / answer-engine crawlers (explicit allow)
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://integrity-decks.vercel.app/sitemap.xml

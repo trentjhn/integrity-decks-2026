@@ -21,8 +21,8 @@ export default {
         steel: "#8C9AA5",
       },
       fontFamily: {
-        // High-contrast display serif with clean f/g; body grotesque.
-        display: ['"DM Serif Display"', "serif"],
+        // Sturdy slab serif (Zilla Slab); body grotesque.
+        display: ['"Zilla Slab"', "Georgia", "serif"],
         sans: ['"Hanken Grotesk"', "sans-serif"],
       },
       letterSpacing: {

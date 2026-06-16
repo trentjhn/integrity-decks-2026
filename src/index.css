@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -30,7 +30,9 @@
     outline: none;
   }
   .font-display {
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Zilla Slab', Georgia, serif;
+    /* Slabs have even strokes, so they need more weight than a high-contrast serif to feel substantial */
+    font-weight: 600;
   }
   .font-sans {
     font-family: 'Hanken Grotesk', sans-serif;

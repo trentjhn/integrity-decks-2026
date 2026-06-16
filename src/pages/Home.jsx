@@ -201,9 +201,10 @@ export default function Home() {
       <section className="py-28 md:py-40 px-6 md:px-10 max-w-[1320px] mx-auto overflow-hidden">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
           <div className="lg:col-span-6">
-            <h2 className="font-display text-4xl md:text-6xl leading-[1.12] tracking-tightest">
-              <span className="line-mask"><span className="mask-inner block">Built right the first</span></span>
-              <span className="line-mask"><span className="mask-inner block">time. Restored to last.</span></span>
+            <h2 className="font-display text-5xl md:text-7xl leading-[1.08] tracking-tightest">
+              <span className="line-mask"><span className="mask-inner block">Built right</span></span>
+              <span className="line-mask"><span className="mask-inner block">the first time.</span></span>
+              <span className="line-mask"><span className="mask-inner block">Restored to last.</span></span>
             </h2>
             <p className="mt-7 text-lg text-ink/65 leading-relaxed max-w-md" data-reveal>
               Most of our work is restoration and waterproofing. We bring tired decks and balconies back
@@ -238,9 +239,9 @@ export default function Home() {
         <div className="relative z-10 max-w-[1320px] mx-auto px-6 md:px-10 py-20 grid grid-cols-2 md:grid-cols-4 gap-10">
           {STATS.map((s, i) => (
             <div key={i} data-reveal data-delay={i * 0.08}>
-              <div className="font-display text-5xl md:text-6xl tracking-tightest tabular-nums">
+              <div className="font-sans font-semibold text-5xl md:text-6xl tracking-tight tabular-nums">
                 <span data-count={s.value} data-decimals={s.decimals || 0}>0</span>
-                <span className="text-bronze-soft">{s.suffix}</span>
+                <span className={`text-bronze-soft ml-1.5 ${s.suffix === "★" ? "text-[0.55em] align-middle" : ""}`}>{s.suffix}</span>
               </div>
               <div className="mt-2 text-sm text-bone/55 uppercase tracking-wide">{s.label}</div>
             </div>

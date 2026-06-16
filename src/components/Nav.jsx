@@ -34,8 +34,7 @@ export default function Nav() {
             showWordmark ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         >
-          <span className="font-display text-2xl tracking-tightest text-bone leading-none">Integrity Decks</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-bronze translate-y-[-2px] transition-transform group-hover:scale-150" />
+          <span className="font-display text-2xl tracking-tightest text-bone leading-none transition-colors duration-300 group-hover:text-bronze-soft">Integrity Decks</span>
         </Link>
 
         <nav className={`hidden md:flex items-center gap-10 ${scrolled ? "" : "[&_a]:drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)]"}`}>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -17,22 +17,35 @@ function ScrollToTop() {
   return null;
 }
 
-export default function App() {
+// Shared chrome (nav, footer, smooth scroll) wraps every page via <Outlet />.
+function Layout() {
   useSmoothScroll();
   return (
     <>
       <ScrollToTop />
       <Nav />
       <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+        <Outlet />
       </main>
       <Footer />
     </>
   );
 }
+
+// Route table consumed by vite-react-ssg: each path is pre-rendered to static HTML
+// at build time, then hydrated on the client.
+export const routes = [
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "services", element: <Services /> },
+      { path: "gallery", element: <Gallery /> },
+      { path: "about", element: <About /> },
+      { path: "contact", element: <Contact /> },
+    ],
+  },
+];
+
+export default routes;

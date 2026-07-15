@@ -84,14 +84,20 @@ export default function Home() {
 
   useGSAP(
     () => {
+      // Tell the index.html motion gate GSAP is in charge (stops its un-hide fallback).
+      document.documentElement.setAttribute("data-motion-ok", "");
       if (prefersReducedMotion) return;
 
-      // HERO intro — runs immediately on load (NOT scroll-triggered), so the CTA
-      // and scroll cue are present from the first paint.
+      // HERO intro — runs immediately on load (NOT scroll-triggered). fromTo, not from:
+      // the pre-paint CSS (html.js-anim) already holds these elements at the start state,
+      // so from() would read those values as the tween's END and never reveal anything.
       const hero = heroSection.current;
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from(hero.querySelectorAll(".hero-mask-inner"), { yPercent: 118, duration: 1.05, stagger: 0.1 })
-        .from(hero.querySelectorAll(".hero-fade"), { y: 22, opacity: 0, duration: 0.8, stagger: 0.12 }, "-=0.55");
+      // y: 0 in both keyframes is load-bearing: GSAP parses the gate's CSS translateY(118%)
+      // into a PIXEL y offset (measured against the fallback font) that yPercent alone
+      // would leave behind, stranding the headline ~107px low after the tween.
+      tl.fromTo(hero.querySelectorAll(".hero-mask-inner"), { yPercent: 118, y: 0 }, { yPercent: 0, y: 0, duration: 1.05, stagger: 0.1 })
+        .fromTo(hero.querySelectorAll(".hero-fade"), { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.12 }, "-=0.55");
 
       // Shared reveals for the REST of the page (hero uses its own hero-* classes)
       registerSharedReveals(gsap);

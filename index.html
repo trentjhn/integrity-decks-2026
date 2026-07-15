@@ -13,6 +13,39 @@
     <meta name="theme-color" content="#102A47" />
     <meta name="robots" content="index, follow" />
 
+    <!-- Fonts: linked here (not @import in CSS) so the browser discovers them with the HTML
+         instead of after the stylesheet downloads — kills the late font-swap on first paint. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Motion gate: put the hero in its animation-start state BEFORE first paint, but only
+         when JS is running and reduced motion is off — crawlers, no-JS, and reduced-motion
+         visitors get the fully-visible static page (the pre-rendered HTML is untouched).
+         Without this, the SSG hero paints visible, then GSAP snaps it hidden and replays the
+         entrance — a visible flash on every refresh. GSAP stamps data-motion-ok when it takes
+         over; if the bundle never loads, the timeout un-hides everything. -->
+    <script>
+      try {
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("js-anim");
+          setTimeout(function () {
+            if (!document.documentElement.hasAttribute("data-motion-ok"))
+              document.documentElement.classList.remove("js-anim");
+          }, 2500);
+        }
+      } catch (e) {}
+    </script>
+    <!-- Inline (not in the bundled stylesheet) so the start state exists at first paint
+         regardless of when the CSS bundle arrives. Mirrored in src/index.css. -->
+    <style>
+      .js-anim .hero-mask-inner { transform: translateY(118%); }
+      .js-anim .hero-fade { opacity: 0; }
+    </style>
+
     <!-- Open Graph / social -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Integrity Decks & Restoration" />

@@ -28,7 +28,7 @@ export default function Services() {
       {/* ===== Three core services, expanded (alternating editorial) ===== */}
       <section className="max-w-[1320px] mx-auto px-6 md:px-10 py-24 md:py-28 space-y-24 md:space-y-32">
         {SERVICES.map((s, i) => (
-          <div key={s.n} className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${i % 2 ? "lg:[&>*:first-child]:order-2" : ""}`}>
+          <div key={s.n} id={s.slug} className={`scroll-mt-24 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${i % 2 ? "lg:[&>*:first-child]:order-2" : ""}`}>
             <div className="rounded-[1.75rem] overflow-hidden aspect-[4/3] shadow-xl" data-reveal>
               <img src={s.img} alt={s.title} className="w-full h-full object-cover" />
             </div>

@@ -49,6 +49,7 @@ export const STATS = [
 export const SERVICES = [
   {
     n: "01",
+    slug: "restoration",
     title: "Deck and Balcony Restoration",
     desc: "We rebuild weathered decks and balconies back to full strength, replacing boards, repairing the structure, and refinishing the surface so it lasts.",
     long: "Before we touch the surface, we check the framing, joists, and ledger for dry rot and movement. A good-looking deck on a weak frame does not last, so we fix what is underneath first, then bring the surface back.",
@@ -58,6 +59,7 @@ export const SERVICES = [
   },
   {
     n: "02",
+    slug: "waterproofing",
     title: "Waterproofing and Coatings",
     desc: "We install waterproofing systems and traffic coatings, like the epoxy Deck 70, that keep water out of the rooms below for years.",
     long: "On a lot of Bay Area homes, the deck or balcony is the roof of the room below it. We install coatings and membranes that keep that space dry, and we catch small leaks before they turn into expensive structural repairs.",
@@ -67,6 +69,7 @@ export const SERVICES = [
   },
   {
     n: "03",
+    slug: "construction",
     title: "Custom Deck Construction",
     desc: "We build new decks from the substructure up, designed around your home and built to code.",
     long: "We pull the permits, engineer the substructure, and build to California code, so your new deck is sound from the ground up and straightforward to insure. You pick the materials; we make sure they are installed right.",

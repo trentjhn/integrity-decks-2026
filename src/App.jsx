@@ -7,13 +7,38 @@ import Services from "./pages/Services";
 import Gallery from "./pages/Gallery";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import { useSmoothScroll } from "./hooks/useSmoothScroll";
+import { useSmoothScroll, getLenis } from "./hooks/useSmoothScroll";
 
-function ScrollToTop() {
-  const { pathname } = useLocation();
+// Route-change scroll manager. Resets THROUGH Lenis (immediate + force kills any
+// in-flight momentum that would otherwise re-scroll the new page to the old
+// position), and handles #hash deep links (e.g. /services#restoration) with an
+// offset for the fixed nav. Falls back to native scrolling under reduced motion,
+// where Lenis is never created.
+function ScrollManager() {
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    const lenis = getLenis();
+    if (!hash) {
+      if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+      window.scrollTo(0, 0);
+      return;
+    }
+    // Anchor jumps wait two frames: at effect time the swapped-in page hasn't
+    // finished layout and Lenis's cached document height is stale, so an
+    // immediate scrollTo computes (and clamps to) the wrong position.
+    let raf = requestAnimationFrame(() => {
+      raf = requestAnimationFrame(() => {
+        const target = document.querySelector(hash);
+        if (!target) return;
+        const l = getLenis();
+        // Nav clearance comes from the target's scroll-mt-24 (Lenis honors CSS
+        // scroll-margin) — don't add an offset here or the two stack.
+        if (l) l.scrollTo(target, { immediate: true, force: true });
+        else window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY - 96);
+      });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [pathname, hash]);
   return null;
 }
 
@@ -22,7 +47,7 @@ function Layout() {
   useSmoothScroll();
   return (
     <>
-      <ScrollToTop />
+      <ScrollManager />
       <Nav />
       <main>
         <Outlet />

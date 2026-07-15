@@ -260,7 +260,7 @@ export default function Home() {
           </div>
         </div>
         {/* Feature the lead service (restoration), then the other two — uneven on purpose */}
-        <Link to="/services" className="group grid md:grid-cols-2 rounded-xl overflow-hidden bg-white border border-ink/5 shadow-card hover:shadow-card-hover hover:border-bronze/30 hover:-translate-y-1 transition-[transform,box-shadow,border-color] duration-300 ease-out mb-6" data-reveal>
+        <Link to={`/services#${SERVICES[0].slug}`} className="group grid md:grid-cols-2 rounded-xl overflow-hidden bg-white border border-ink/5 shadow-card hover:shadow-card-hover hover:border-bronze/30 hover:-translate-y-1 transition-[transform,box-shadow,border-color] duration-300 ease-out mb-6" data-reveal>
           <div className="h-64 md:h-auto overflow-hidden order-1 md:order-none" data-clip>
             <img src={SERVICES[0].img} alt={SERVICES[0].title} className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.07]" />
           </div>
@@ -272,7 +272,7 @@ export default function Home() {
         </Link>
         <div className="grid md:grid-cols-2 gap-6">
           {SERVICES.slice(1).map((s) => (
-            <Link to="/services" key={s.n} className="group block rounded-xl overflow-hidden bg-white border border-ink/5 shadow-card hover:shadow-card-hover hover:border-bronze/30 hover:-translate-y-1 transition-[transform,box-shadow,border-color] duration-300 ease-out" data-reveal>
+            <Link to={`/services#${s.slug}`} key={s.n} className="group block rounded-xl overflow-hidden bg-white border border-ink/5 shadow-card hover:shadow-card-hover hover:border-bronze/30 hover:-translate-y-1 transition-[transform,box-shadow,border-color] duration-300 ease-out" data-reveal>
               <div className="h-56 overflow-hidden">
                 <img src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.08]" />
               </div>

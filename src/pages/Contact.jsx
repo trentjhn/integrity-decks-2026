@@ -38,8 +38,8 @@ function QuoteForm() {
 
   if (done) {
     return (
-      <div className="bg-white rounded-[1.75rem] border border-ink/5 p-10 md:p-12 text-center shadow-sm">
-        <div className="w-14 h-14 rounded-full bg-bronze/15 text-bronze flex items-center justify-center mx-auto mb-6">
+      <div className="success-in bg-white rounded-[1.75rem] border border-ink/5 p-10 md:p-12 text-center shadow-sm">
+        <div className="success-in success-in-delayed w-14 h-14 rounded-full bg-bronze/15 text-bronze flex items-center justify-center mx-auto mb-6">
           <iconify-icon icon="solar:check-circle-bold" width="32" height="32" />
         </div>
         <h3 className="font-display text-3xl mb-3">Thank you, {data.name.split(" ")[0] || "there"}.</h3>
@@ -57,19 +57,19 @@ function QuoteForm() {
       <div className="flex items-center gap-3 mb-8">
         {STEPS.map((label, i) => (
           <div key={label} className="flex items-center gap-3 flex-1">
-            <div className={`flex items-center gap-2 text-sm font-medium ${i <= step ? "text-ink" : "text-ink/35"}`}>
-              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${i < step ? "bg-bronze text-navy" : i === step ? "bg-navy text-bone" : "bg-ink/10 text-ink/40"}`}>
+            <div className={`flex items-center gap-2 text-sm font-medium ${i <= step ? "text-ink" : "text-ink/60"}`}>
+              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs transition-colors duration-300 ${i < step ? "bg-bronze-text text-bone" : i === step ? "bg-navy text-bone" : "bg-ink/10 text-ink/65"}`}>
                 {i < step ? "✓" : i + 1}
               </span>
               <span className="hidden sm:inline">{label}</span>
             </div>
-            {i < STEPS.length - 1 && <div className={`h-px flex-1 ${i < step ? "bg-bronze" : "bg-ink/10"}`} />}
+            {i < STEPS.length - 1 && <div className={`h-px flex-1 transition-colors duration-300 ${i < step ? "bg-bronze" : "bg-ink/10"}`} />}
           </div>
         ))}
       </div>
 
       {step === 0 && (
-        <div className="space-y-6">
+        <div key="step-0" className="step-in space-y-6">
           <div>
             <label htmlFor="q-service" className={labelCls}>What can we help with?</label>
             <select id="q-service" className={fieldCls} value={data.serviceType} onChange={set("serviceType")} aria-invalid={!!errors.serviceType} aria-describedby={errors.serviceType ? "err-service" : undefined}>
@@ -94,7 +94,7 @@ function QuoteForm() {
       )}
 
       {step === 1 && (
-        <div className="space-y-6">
+        <div key="step-1" className="step-in space-y-6">
           <div>
             <label htmlFor="q-name" className={labelCls}>Your name</label>
             <input id="q-name" className={fieldCls} value={data.name} onChange={set("name")} placeholder="First and last" aria-invalid={!!errors.name} aria-describedby={errors.name ? "err-name" : undefined} />
@@ -114,7 +114,7 @@ function QuoteForm() {
       )}
 
       {step === 2 && (
-        <div className="space-y-6">
+        <div key="step-2" className="step-in space-y-6">
           <div>
             <label htmlFor="q-address" className={labelCls}>Project address <span className="text-ink/40">(optional)</span></label>
             <input id="q-address" className={fieldCls} value={data.address} onChange={set("address")} placeholder="City is fine if you prefer" />
@@ -135,16 +135,19 @@ function QuoteForm() {
 
       <div className="flex items-center justify-between gap-4 mt-9">
         {step > 0 ? (
-          <button type="button" onClick={back} className="inline-flex items-center gap-2 text-ink/60 hover:text-ink text-sm font-medium transition-colors">
+          <button type="button" onClick={back} className="pressable inline-flex items-center gap-2 text-ink/60 hover:text-ink text-sm font-medium">
             <iconify-icon icon="solar:arrow-left-linear" width="18" height="18" /> Back
           </button>
         ) : <span />}
+        {/* Distinct keys force a remount when Continue becomes Send: without them React
+            mutates type="button" → "submit" on the SAME node mid-click, and the browser's
+            default action then submits the form — skipping step 3 entirely. */}
         {step < STEPS.length - 1 ? (
-          <button type="button" onClick={next} className="inline-flex items-center gap-2 bg-navy text-bone rounded-full px-7 py-3.5 text-sm font-semibold hover:bg-bronze hover:text-navy transition-colors">
+          <button key="continue" type="button" onClick={next} className="pressable inline-flex items-center gap-2 bg-navy text-bone rounded-full px-7 py-3.5 text-sm font-semibold hover:bg-bronze hover:text-navy">
             Continue <iconify-icon icon="solar:arrow-right-linear" width="18" height="18" />
           </button>
         ) : (
-          <button type="submit" className="inline-flex items-center gap-2 bg-bronze text-navy rounded-full px-7 py-3.5 text-sm font-semibold hover:bg-navy hover:text-bone transition-colors">
+          <button key="submit" type="submit" className="pressable inline-flex items-center gap-2 bg-bronze-text text-bone rounded-full px-7 py-3.5 text-sm font-semibold hover:bg-navy hover:text-bone">
             Send request <iconify-icon icon="solar:arrow-right-up-linear" width="18" height="18" />
           </button>
         )}
@@ -176,7 +179,7 @@ export default function Contact() {
               <ContactRow icon="solar:map-point-linear" label="Service area" value={`${COMPANY.serviceArea} · based in ${COMPANY.location}`} />
             </div>
             <div className="mt-9 border-t border-ink/10 pt-8" data-reveal data-delay="0.08">
-              <div className="text-bronze text-xs uppercase tracking-[0.2em] mb-4">Your free consultation includes</div>
+              <div className="text-bronze-text text-xs uppercase tracking-[0.2em] mb-4">Your free consultation includes</div>
               <ul className="space-y-3">
                 {CONSULTATION_INCLUDES.map((c, i) => (
                   <li key={i} className="flex items-start gap-3 text-ink/75">

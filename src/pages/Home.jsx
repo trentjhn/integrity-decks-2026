@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "../lib/gsap";
+import { registerSharedReveals } from "../hooks/usePageMotion";
 import { STATS, SERVICES, SERVICES_INTRO, CONSULTATION_INCLUDES, PROCESS, PORTFOLIO, TESTIMONIALS, COMPANY } from "../lib/content";
 import CtaBand from "../components/CtaBand";
 import heroImg from "../assets/c7A4g6KPGGpX.jpeg";
@@ -34,7 +35,7 @@ function GallerySlideshow() {
           <img src={proj.img} alt={proj.title} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy/15 to-transparent" />
           <div className="absolute bottom-0 left-0 w-full p-8 md:p-10 text-bone">
-            <div className="inline-block bg-bronze text-navy text-xs font-semibold rounded-full px-3 py-1 mb-3">{proj.category}</div>
+            <div className="inline-block bg-bronze-text text-bone text-xs font-semibold rounded-full px-3 py-1 mb-3">{proj.category}</div>
             <h3 className="font-display text-3xl md:text-4xl mb-1">{proj.title}</h3>
             <div className="text-sm text-bone/75 flex items-center gap-1.5">
               <iconify-icon icon="solar:map-point-linear" width="15" height="15" className="text-bronze-soft" />
@@ -46,17 +47,17 @@ function GallerySlideshow() {
 
       {/* controls */}
       <div className="absolute top-6 right-6 flex gap-2">
-        <button onClick={() => go(-1)} aria-label="Previous project" className="w-11 h-11 rounded-full bg-bone/15 backdrop-blur-md text-bone flex items-center justify-center hover:bg-bone hover:text-navy transition-colors">
+        <button onClick={() => go(-1)} aria-label="Previous project" className="pressable w-11 h-11 rounded-full bg-bone/15 backdrop-blur-md text-bone flex items-center justify-center hover:bg-bone hover:text-navy">
           <iconify-icon icon="solar:arrow-left-linear" width="20" height="20" />
         </button>
-        <button onClick={() => go(1)} aria-label="Next project" className="w-11 h-11 rounded-full bg-bone/15 backdrop-blur-md text-bone flex items-center justify-center hover:bg-bone hover:text-navy transition-colors">
+        <button onClick={() => go(1)} aria-label="Next project" className="pressable w-11 h-11 rounded-full bg-bone/15 backdrop-blur-md text-bone flex items-center justify-center hover:bg-bone hover:text-navy">
           <iconify-icon icon="solar:arrow-right-linear" width="20" height="20" />
         </button>
       </div>
       <div className="absolute bottom-5 right-8 flex items-center gap-1">
         {SLIDES.map((_, idx) => (
           <button key={idx} onClick={() => setI(idx)} aria-label={`Go to project ${idx + 1}`} className="py-3 px-1 flex items-center" aria-current={idx === i}>
-            <span className={`block h-1.5 rounded-full transition-all ${idx === i ? "w-7 bg-bronze" : "w-1.5 bg-bone/40"}`} />
+            <span className={`block h-1.5 rounded-full transition-[width,background-color] duration-300 ${idx === i ? "w-7 bg-bronze" : "w-1.5 bg-bone/40"}`} />
           </button>
         ))}
       </div>
@@ -92,25 +93,8 @@ export default function Home() {
       tl.from(hero.querySelectorAll(".hero-mask-inner"), { yPercent: 118, duration: 1.05, stagger: 0.1 })
         .from(hero.querySelectorAll(".hero-fade"), { y: 22, opacity: 0, duration: 0.8, stagger: 0.12 }, "-=0.55");
 
-      // Masked line reveals for the REST of the page (exclude hero)
-      gsap.utils.toArray(".mask-inner").forEach((el) => {
-        gsap.from(el, { yPercent: 115, duration: 1.1, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 92%" } });
-      });
-
-      // Generic fade/slide reveals (below the fold)
-      gsap.utils.toArray("[data-reveal]").forEach((el) => {
-        gsap.from(el, {
-          y: 38, opacity: 0, duration: 0.9, ease: "power3.out",
-          delay: parseFloat(el.dataset.delay || 0),
-          scrollTrigger: { trigger: el, start: "top 88%" },
-        });
-      });
-      // Image "wipe up" reveal for hero-class images
-      gsap.utils.toArray("[data-clip]").forEach((el) => {
-        gsap.from(el, { clipPath: "inset(0 0 100% 0)", duration: 1.2, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 85%" } });
-        const img = el.querySelector("img");
-        if (img) gsap.from(img, { scale: 1.12, duration: 1.5, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 85%" } });
-      });
+      // Shared reveals for the REST of the page (hero uses its own hero-* classes)
+      registerSharedReveals(gsap);
 
       // Hero parallax
       if (heroMedia.current)
@@ -134,7 +118,7 @@ export default function Home() {
       if (processLine.current)
         gsap.fromTo(processLine.current, { scaleY: 0 }, { scaleY: 1, ease: "none", transformOrigin: "top", scrollTrigger: { trigger: processLine.current, start: "top 75%", end: "bottom 75%", scrub: true } });
       gsap.utils.toArray(".proc-dot").forEach((dot) => {
-        gsap.from(dot, { scale: 0, duration: 0.5, ease: "back.out(2)", scrollTrigger: { trigger: dot, start: "top 80%" } });
+        gsap.from(dot, { scale: 0.6, opacity: 0, duration: 0.45, ease: "back.out(1.4)", scrollTrigger: { trigger: dot, start: "top 80%" } });
       });
 
       const refresh = () => ScrollTrigger.refresh();
@@ -148,7 +132,8 @@ export default function Home() {
   return (
     <div ref={root} className="font-sans text-ink">
       {/* ================= HERO (brand-forward, centered) ================= */}
-      <section ref={heroSection} className="relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden grain text-center bg-navy-deep">
+      {/* svh keeps the hero stable when mobile URL bars collapse; h-screen is the old-iOS fallback */}
+      <section ref={heroSection} className="relative h-screen supports-[height:100svh]:h-svh min-h-[640px] flex items-center justify-center overflow-hidden grain text-center bg-navy-deep">
         <div ref={heroMedia} className="absolute inset-0 -top-[16%] h-[132%] bg-navy-deep">
           <img
             ref={heroImgRef}
@@ -156,6 +141,9 @@ export default function Home() {
             alt="Covered deck with a fire feature at dusk in the Bay Area"
             fetchpriority="high"
             onLoad={() => setHeroImgLoaded(true)}
+            // SSG always renders opacity-0 (no window at build time); reduced-motion clients
+            // intentionally hydrate straight to opacity-100 — suppress that known mismatch.
+            suppressHydrationWarning
             className={`w-full h-full object-cover transition-opacity duration-[1100ms] ease-out ${heroImgLoaded ? "opacity-100" : "opacity-0"}`}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy/60 to-navy/45" />
@@ -173,11 +161,11 @@ export default function Home() {
             Deck building, restoration, and waterproofing, done with care across the {COMPANY.serviceArea}.
           </p>
           <div className="hero-fade mt-9 flex flex-wrap gap-3 justify-center">
-            <Link to="/contact" className="inline-flex items-center gap-2 bg-bronze text-navy rounded-full px-6 py-3.5 text-sm font-semibold hover:bg-bone transition-colors">
+            <Link to="/contact" className="pressable inline-flex items-center gap-2 bg-bronze-text text-bone rounded-full px-6 py-3.5 text-sm font-semibold hover:bg-bone hover:text-navy">
               Get a free estimate
               <iconify-icon icon="solar:arrow-right-up-linear" width="18" height="18" />
             </Link>
-            <Link to="/gallery" className="inline-flex items-center gap-2 border border-bone/30 text-bone rounded-full px-6 py-3.5 text-sm font-medium hover:bg-bone hover:text-navy transition-colors">
+            <Link to="/gallery" className="pressable inline-flex items-center gap-2 border border-bone/30 text-bone rounded-full px-6 py-3.5 text-sm font-medium hover:bg-bone hover:text-navy">
               See our work
             </Link>
           </div>
@@ -213,12 +201,12 @@ export default function Home() {
             </p>
             <div className="mt-8 flex items-center gap-6" data-reveal data-delay="0.1">
               <div>
-                <div className="font-display text-4xl text-bronze">21+</div>
+                <div className="font-display text-4xl text-bronze-text">21+</div>
                 <div className="text-sm text-ink/50 uppercase tracking-wide">Years in the trade</div>
               </div>
               <div className="w-px h-12 bg-ink/15" />
               <div>
-                <div className="font-display text-4xl text-bronze">Family</div>
+                <div className="font-display text-4xl text-bronze-text">Family</div>
                 <div className="text-sm text-ink/50 uppercase tracking-wide">Owned and run</div>
               </div>
             </div>
@@ -266,28 +254,28 @@ export default function Home() {
           </div>
         </div>
         {/* Feature the lead service (restoration), then the other two — uneven on purpose */}
-        <article className="group grid md:grid-cols-2 rounded-xl overflow-hidden bg-white border border-ink/5 shadow-card hover:shadow-card-hover hover:border-bronze/30 hover:-translate-y-1 transition-all duration-500 mb-6" data-reveal>
+        <Link to="/services" className="group grid md:grid-cols-2 rounded-xl overflow-hidden bg-white border border-ink/5 shadow-card hover:shadow-card-hover hover:border-bronze/30 hover:-translate-y-1 transition-[transform,box-shadow,border-color] duration-300 ease-out mb-6" data-reveal>
           <div className="h-64 md:h-auto overflow-hidden order-1 md:order-none" data-clip>
             <img src={SERVICES[0].img} alt={SERVICES[0].title} className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.07]" />
           </div>
           <div className="p-8 md:p-12 flex flex-col justify-center">
-            <div className="text-bronze text-sm font-semibold mb-3">{SERVICES[0].n} · Most of what we do</div>
+            <div className="text-bronze-text text-sm font-semibold mb-3">{SERVICES[0].n} · Most of what we do</div>
             <h3 className="font-display text-3xl md:text-4xl tracking-tightest mb-4">{SERVICES[0].title}</h3>
             <p className="text-ink/60 leading-relaxed text-lg">{SERVICES[0].desc}</p>
           </div>
-        </article>
+        </Link>
         <div className="grid md:grid-cols-2 gap-6">
           {SERVICES.slice(1).map((s) => (
-            <article key={s.n} className="group rounded-xl overflow-hidden bg-white border border-ink/5 shadow-card hover:shadow-card-hover hover:border-bronze/30 hover:-translate-y-1 transition-all duration-500" data-reveal>
+            <Link to="/services" key={s.n} className="group block rounded-xl overflow-hidden bg-white border border-ink/5 shadow-card hover:shadow-card-hover hover:border-bronze/30 hover:-translate-y-1 transition-[transform,box-shadow,border-color] duration-300 ease-out" data-reveal>
               <div className="h-56 overflow-hidden">
                 <img src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.08]" />
               </div>
               <div className="p-7">
-                <div className="text-bronze text-sm font-semibold mb-3">{s.n}</div>
+                <div className="text-bronze-text text-sm font-semibold mb-3">{s.n}</div>
                 <h3 className="font-display text-2xl mb-3">{s.title}</h3>
                 <p className="text-ink/60 leading-relaxed">{s.desc}</p>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>
@@ -353,7 +341,7 @@ export default function Home() {
       {/* ================= TESTIMONIALS MARQUEE ================= */}
       <section className="py-24 overflow-hidden">
         <div className="max-w-[1320px] mx-auto px-6 md:px-10 mb-12">
-          <div className="text-bronze text-sm uppercase tracking-[0.25em] mb-5" data-reveal>What clients say</div>
+          <div className="text-bronze-text text-sm uppercase tracking-[0.25em] mb-5" data-reveal>What clients say</div>
           <h2 className="font-display text-4xl md:text-6xl tracking-tightest leading-[1.05] max-w-2xl">
             <span className="line-mask"><span className="mask-inner block">They call us back.</span></span>
           </h2>
@@ -370,10 +358,14 @@ export default function Home() {
   );
 }
 
-// Continuous testimonial marquee, pauses on hover. The cards are rendered twice;
-// we slide by exactly ONE set width (cards + gaps) so the loop is seamless.
+// Continuous testimonial marquee; any pointer (hover or touch-down) pauses it.
+// The cards are rendered twice; we slide by exactly ONE set width (cards + gaps)
+// so the loop is seamless. Under reduced motion it becomes a native horizontal
+// scroller with ONE card set — switched post-mount so SSG hydration matches.
 function Marquee() {
   const track = useRef(null);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  useEffect(() => { setReducedMotion(prefersReducedMotion); }, []);
   useGSAP(
     () => {
       if (prefersReducedMotion) return;
@@ -387,23 +379,28 @@ function Marquee() {
         let dist = 0;
         for (let i = 0; i < half; i++) dist += kids[i].offsetWidth + 24; // card width + gap-6 (24px)
         loop = gsap.to(track.current, { x: -dist, ease: "none", duration: dist / 90, repeat: -1 }); // ~90px/s
-        track.current.addEventListener("mouseenter", onEnter);
-        track.current.addEventListener("mouseleave", onLeave);
+        track.current.addEventListener("pointerenter", onEnter);
+        track.current.addEventListener("pointerleave", onLeave);
+        track.current.addEventListener("pointerdown", onEnter);
+        track.current.addEventListener("pointerup", onLeave);
       }, 200);
       return () => {
         clearTimeout(id);
         if (loop) loop.kill();
         if (track.current) {
-          track.current.removeEventListener("mouseenter", onEnter);
-          track.current.removeEventListener("mouseleave", onLeave);
+          track.current.removeEventListener("pointerenter", onEnter);
+          track.current.removeEventListener("pointerleave", onLeave);
+          track.current.removeEventListener("pointerdown", onEnter);
+          track.current.removeEventListener("pointerup", onLeave);
         }
       };
     },
     { scope: track }
   );
+  const items = reducedMotion ? TESTIMONIALS : [...TESTIMONIALS, ...TESTIMONIALS];
   return (
-    <div ref={track} className="flex gap-6 w-max">
-      {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+    <div ref={track} className={`flex gap-6 ${reducedMotion ? "overflow-x-auto no-scrollbar px-6" : "w-max"}`}>
+      {items.map((t, i) => (
         <figure key={i} className="w-[360px] shrink-0 bg-white rounded-[1.5rem] p-8 border border-ink/5 flex flex-col">
           <div className="flex gap-1 text-bronze mb-5">
             {[0, 1, 2, 3, 4].map((s) => (<iconify-icon key={s} icon="solar:star-bold" width="15" height="15" />))}

@@ -21,9 +21,11 @@ export default function Faq({ items }) {
                 className={`shrink-0 text-bronze transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
               />
             </button>
-            <div className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100 pb-6" : "grid-rows-[0fr] opacity-0"}`}>
+            {/* pb-6 lives on the <p>, not the clipping div: border-box padding on the
+                overflow-hidden child would floor the closed height at 24px instead of 0. */}
+            <div className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
               <div className="overflow-hidden">
-                <p className="text-ink/65 leading-relaxed max-w-2xl text-[1.05rem]">{item.a}</p>
+                <p className="pb-6 text-ink/65 leading-relaxed max-w-2xl text-[1.05rem]">{item.a}</p>
               </div>
             </div>
           </div>

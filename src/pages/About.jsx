@@ -26,7 +26,7 @@ export default function About() {
             {/* name plate overlaps up onto the portrait's lower edge */}
             <div className="relative z-10 -mt-14 mx-5 bg-bone border border-ink/5 rounded-xl shadow-card px-7 py-5" data-reveal data-delay="0.05">
               <div className="font-display text-2xl">{FOUNDER.name}</div>
-              <div className="text-bronze text-sm uppercase tracking-wide mt-1">{FOUNDER.title}</div>
+              <div className="text-bronze-text text-sm uppercase tracking-wide mt-1">{FOUNDER.title}</div>
             </div>
           </div>
           <div className="lg:col-span-7 lg:pt-6">
@@ -48,7 +48,7 @@ export default function About() {
       <section className="bg-bone-dim/50">
         <div className="max-w-[1320px] mx-auto px-6 md:px-10 py-24">
           <div className="max-w-2xl mb-14">
-            <div className="text-bronze text-sm uppercase tracking-[0.25em] mb-5" data-reveal>What we stand on</div>
+            <div className="text-bronze-text text-sm uppercase tracking-[0.25em] mb-5" data-reveal>What we stand on</div>
             <h2 className="font-display text-3xl md:text-5xl tracking-tightest leading-[1.05]">
               <span className="line-mask"><span className="mask-inner block">Our values</span></span>
             </h2>

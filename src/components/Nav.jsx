@@ -19,7 +19,7 @@ export default function Nav() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-[background-color,padding,border-color,backdrop-filter] duration-300 ease-out ${
         scrolled ? "bg-navy/90 backdrop-blur-md border-b border-bone/10 py-3" : "bg-transparent py-6"
       }`}
     >
@@ -56,7 +56,7 @@ export default function Nav() {
         <div className="flex items-center gap-3">
           <Link
             to="/contact"
-            className="hidden sm:inline-flex items-center gap-2 border border-bone/30 text-bone rounded-full px-5 py-2.5 text-sm font-medium hover:bg-bone hover:text-navy transition-colors"
+            className="pressable hidden sm:inline-flex items-center gap-2 border border-bone/30 text-bone rounded-full px-5 py-2.5 text-sm font-medium hover:bg-bone hover:text-navy"
           >
             Get a Quote
             <iconify-icon icon="solar:arrow-right-up-linear" width="16" height="16" />
@@ -72,18 +72,24 @@ export default function Nav() {
         </div>
       </div>
 
-      {open && (
-        <div className="md:hidden mt-3 mx-4 rounded-2xl bg-navy-soft/95 backdrop-blur-md border border-bone/10 px-6 py-6 flex flex-col gap-4">
-          {NAV_LINKS.map((l) => (
-            <NavLink key={l.to} to={l.to} onClick={() => setOpen(false)} className="text-lg font-display text-bone hover:text-bronze-soft">
-              {l.label}
-            </NavLink>
-          ))}
-          <Link to="/contact" onClick={() => setOpen(false)} className="mt-2 inline-flex items-center justify-center gap-2 bg-bronze text-navy rounded-full px-5 py-3 text-sm font-semibold">
-            Get a Quote
-          </Link>
-        </div>
-      )}
+      {/* Mobile menu stays mounted so open/close transitions can retarget mid-motion;
+          inert + visibility keep it out of the tab order while closed. */}
+      <div
+        aria-hidden={!open}
+        inert={open ? undefined : ""}
+        className={`md:hidden mt-3 mx-4 rounded-2xl bg-navy-soft/95 backdrop-blur-md border border-bone/10 px-6 py-6 flex flex-col gap-4 transition-[opacity,transform,visibility] duration-300 ease-out motion-reduce:transition-none ${
+          open ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible pointer-events-none"
+        }`}
+      >
+        {NAV_LINKS.map((l) => (
+          <NavLink key={l.to} to={l.to} onClick={() => setOpen(false)} className="text-lg font-display text-bone hover:text-bronze-soft">
+            {l.label}
+          </NavLink>
+        ))}
+        <Link to="/contact" onClick={() => setOpen(false)} className="pressable mt-2 inline-flex items-center justify-center gap-2 bg-bronze-text text-bone rounded-full px-5 py-3 text-sm font-semibold">
+          Get a Quote
+        </Link>
+      </div>
     </header>
   );
 }

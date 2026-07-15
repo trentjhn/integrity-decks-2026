@@ -27,7 +27,7 @@ export default function Gallery() {
             <button
               key={c}
               onClick={() => setActive(c)}
-              className={`rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
+              className={`pressable rounded-full px-5 py-2.5 text-sm font-medium ${
                 active === c ? "bg-navy text-bone" : "bg-white border border-ink/15 text-ink/70 hover:border-ink/40"
               }`}
             >
@@ -47,7 +47,7 @@ export default function Gallery() {
               <img src={proj.img} alt={proj.title} className="w-full h-auto object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy/10 to-transparent" />
               <figcaption className="absolute bottom-0 left-0 w-full p-6 text-bone">
-                <div className="inline-block bg-bronze text-navy text-xs font-semibold rounded-full px-3 py-1 mb-3">{proj.category}</div>
+                <div className="inline-block bg-bronze-text text-bone text-xs font-semibold rounded-full px-3 py-1 mb-3">{proj.category}</div>
                 <h3 className="font-display text-2xl mb-1 leading-snug">{proj.title}</h3>
                 <div className="text-sm text-bone/75 flex items-center gap-1.5">
                   <iconify-icon icon="solar:map-point-linear" width="14" height="14" className="text-bronze-soft" />

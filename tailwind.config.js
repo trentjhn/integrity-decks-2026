@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  // Wrap hover: utilities in @media (hover:hover) so taps on touch devices
+  // don't leave zoomed images / lifted cards stuck in their hover state.
+  future: { hoverOnlyWhenSupported: true },
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -15,8 +18,9 @@ export default {
           line: "#2B4A72",
         },
         bronze: {
-          DEFAULT: "#B26C3A", // copper-leaning warm metal; used in hairlines/labels/hover, never gaudy
+          DEFAULT: "#B26C3A", // copper-leaning warm metal; hairlines/dots/icons + text on navy, never gaudy
           soft: "#C68A5A",
+          text: "#8F5527", // AA-safe copper for text-on-light + CTA surfaces: 5.3:1 on bone, 6.0:1 on white, 4.65:1 on bone-dim/50 blends
         },
         steel: "#8C9AA5",
       },

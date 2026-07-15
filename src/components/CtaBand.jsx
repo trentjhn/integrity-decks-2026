@@ -8,7 +8,7 @@ export default function CtaBand({ heading = "Ready to build or restore?", body =
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-bronze/50 to-transparent" />
         <h2 className="font-display text-4xl md:text-6xl tracking-tightest mb-5">{heading}</h2>
         <p className="text-bone/65 text-lg max-w-xl mx-auto mb-9">{body}</p>
-        <Link to="/contact" className="inline-flex items-center gap-2 bg-bronze text-navy rounded-full px-8 py-4 text-base font-semibold hover:bg-bone transition-colors">
+        <Link to="/contact" className="pressable inline-flex items-center gap-2 bg-bronze-text text-bone rounded-full px-8 py-4 text-base font-semibold hover:bg-bone hover:text-navy">
           Schedule a free consultation
           <iconify-icon icon="solar:arrow-right-up-linear" width="20" height="20" />
         </Link>

@@ -33,7 +33,7 @@ export default function Services() {
               <img src={s.img} alt={s.title} className="w-full h-full object-cover" />
             </div>
             <div>
-              <div className="text-bronze font-semibold mb-3" data-reveal>{s.n}</div>
+              <div className="text-bronze-text font-semibold mb-3" data-reveal>{s.n}</div>
               <h2 className="font-display text-3xl md:text-5xl tracking-tightest leading-[1.05] mb-5">
                 <span className="line-mask"><span className="mask-inner block">{s.title}</span></span>
               </h2>
@@ -78,7 +78,7 @@ export default function Services() {
       <section className="bg-bone-dim/50">
         <div className="max-w-[1320px] mx-auto px-6 md:px-10 py-24">
           <div className="max-w-2xl mb-14">
-            <div className="text-bronze text-sm uppercase tracking-[0.25em] mb-5" data-reveal>Why homeowners choose us</div>
+            <div className="text-bronze-text text-sm uppercase tracking-[0.25em] mb-5" data-reveal>Why homeowners choose us</div>
             <h2 className="font-display text-3xl md:text-5xl tracking-tightest leading-[1.05]">
               <span className="line-mask"><span className="mask-inner block">Why people keep calling us back</span></span>
             </h2>
@@ -86,7 +86,7 @@ export default function Services() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
             {WHY_US.map((w, i) => (
               <div key={i} className="bg-white rounded-xl border border-ink/5 shadow-card hover:shadow-card-hover transition-shadow duration-500 p-8" data-reveal data-delay={(i % 3) * 0.08}>
-                <div className="font-display text-4xl text-bronze/90 mb-5 tabular-nums">{String(i + 1).padStart(2, "0")}</div>
+                <div className="font-display text-4xl text-bronze-text/90 mb-5 tabular-nums">{String(i + 1).padStart(2, "0")}</div>
                 <h3 className="font-display text-[1.4rem] mb-2.5 leading-snug">{w.title}</h3>
                 <p className="text-ink/60 leading-relaxed">{w.desc}</p>
               </div>
@@ -99,7 +99,7 @@ export default function Services() {
       <section className="max-w-[1320px] mx-auto px-6 md:px-10 py-24">
         <div className="grid lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4">
-            <div className="text-bronze text-sm uppercase tracking-[0.25em] mb-5" data-reveal>Good to know</div>
+            <div className="text-bronze-text text-sm uppercase tracking-[0.25em] mb-5" data-reveal>Good to know</div>
             <h2 className="font-display text-4xl md:text-5xl tracking-tightest leading-[1.05] lg:sticky lg:top-28">
               <span className="line-mask"><span className="mask-inner block">Common questions</span></span>
             </h2>

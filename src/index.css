@@ -47,6 +47,30 @@
    padding-bottom gives descenders (g, y, p) room so overflow:hidden never clips them. */
 .line-mask { overflow: hidden; display: block; padding-bottom: 0.16em; }
 
+/* Press feedback for buttons/CTAs. Transform+colors in one declaration so it
+   composes with hover color changes without a second transition rule. */
+.pressable {
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+              color 200ms ease, background-color 200ms ease,
+              border-color 200ms ease, opacity 200ms ease;
+}
+.pressable:active { transform: scale(0.97); }
+
+/* Form step / success entrances (Contact). Entrance-only, so keyframes are fine. */
+@keyframes step-in {
+  from { opacity: 0; transform: translateY(8px); }
+}
+.step-in { animation: step-in 240ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+@keyframes success-in {
+  from { opacity: 0; transform: scale(0.97); }
+}
+.success-in { animation: success-in 320ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+/* Must come after .success-in: the animation shorthand above resets animation-delay. */
+.success-in-delayed { animation-delay: 120ms; }
+@media (prefers-reduced-motion: reduce) {
+  .step-in, .success-in { animation-duration: 1ms; }
+}
+
 /* Subtle film grain for depth — keeps large flat areas from reading as bland */
 .grain::before {
   content: "";
